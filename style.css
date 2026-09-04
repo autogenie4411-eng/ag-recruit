@@ -2648,10 +2648,17 @@ section {
     }
 
     .work-process__visual {
-        width: min(100%, 150px) !important;
-        aspect-ratio: 1 / 1 !important;
+        width: 150px !important;
+        height: 150px !important;
+        min-width: 150px !important;
+        min-height: 150px !important;
+        max-width: 150px !important;
+        max-height: 150px !important;
+        aspect-ratio: auto !important;
+        flex: 0 0 150px !important;
         margin: 0 auto 14px !important;
         padding: 18px !important;
+        border-radius: 50% !important;
     }
 
     .work-process__item h3 {
@@ -2670,7 +2677,13 @@ section {
     }
 
     .work-process__visual {
-        width: min(100%, 138px) !important;
+        width: 138px !important;
+        height: 138px !important;
+        min-width: 138px !important;
+        min-height: 138px !important;
+        max-width: 138px !important;
+        max-height: 138px !important;
+        flex-basis: 138px !important;
         padding: 16px !important;
     }
 
@@ -5320,5 +5333,71 @@ section,
     .si {
         overflow-x: clip !important;
         overflow-y: visible !important;
+    }
+}
+
+
+/* 채용공고 정착지원금 강조 */
+.job-settlement {
+    color: #e53935;
+    font-weight: 800;
+}
+
+
+/* 채용공고 정착지원금 문구 전체 메인 오렌지 */
+.job-settlement-row,
+.job-settlement-row .job-settlement {
+    color: #ff6b2b !important;
+    font-weight: 800;
+}
+
+
+/* 전형 절차 - 모바일 한 줄 고정 */
+@media (max-width: 700px) {
+    .proc {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        align-items: center !important;
+        gap: 4px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow: hidden !important;
+    }
+
+    .proc-s {
+        flex: 1 1 0 !important;
+        min-width: 0 !important;
+        width: auto !important;
+        max-width: none !important;
+        padding: 10px 4px !important;
+        font-size: 12px !important;
+        line-height: 1.2 !important;
+        white-space: nowrap !important;
+        text-align: center !important;
+    }
+
+    .proc-arr {
+        flex: 0 0 auto !important;
+        width: auto !important;
+        margin: 0 !important;
+        font-size: 13px !important;
+        line-height: 1 !important;
+    }
+}
+
+@media (max-width: 390px) {
+    .proc {
+        gap: 2px !important;
+    }
+
+    .proc-s {
+        padding: 9px 2px !important;
+        font-size: 11px !important;
+        letter-spacing: -0.4px !important;
+    }
+
+    .proc-arr {
+        font-size: 12px !important;
     }
 }
