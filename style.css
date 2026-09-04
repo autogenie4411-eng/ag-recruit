@@ -2357,7 +2357,7 @@ section {
     position: relative;
     padding: 112px 0 0;
     border-radius: 0;
-    background: #fff;
+    background: #ffffff;
     overflow: hidden;
 }
 
@@ -5336,13 +5336,11 @@ section,
     }
 }
 
-
 /* 채용공고 정착지원금 강조 */
 .job-settlement {
     color: #e53935;
     font-weight: 800;
 }
-
 
 /* 채용공고 정착지원금 문구 전체 메인 오렌지 */
 .job-settlement-row,
@@ -5350,7 +5348,6 @@ section,
     color: #ff6b2b !important;
     font-weight: 800;
 }
-
 
 /* 전형 절차 - 모바일 한 줄 고정 */
 @media (max-width: 700px) {
