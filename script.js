@@ -93,7 +93,22 @@ document.addEventListener("DOMContentLoaded", function () {
      스크롤 애니메이션
   ========================================================= */
   var sel =
-    ".sec-label,.sec-title,.sec-desc,.why-card,.ben-card,.job-sec,.sidebar,.hero-sub,.hero-title,.hero-quote,.cta-t,.cta-d,.cta-btn,.cta-c,.ideal-row,.why-n,.why-t,.why-d,.jl li,.ins-chip,.proc-s,.s-card,.foot-logo,.foot-info,.about-top,.chart-wrap,.chart-bubble";
+    ".sec-label,.sec-title,.sec-desc," +
+    ".hero-sub,.hero-title,.hero-quote," +
+    ".about-top,.chart-wrap,.chart-bubble," +
+    ".ideal-row," +
+    ".why-card,.why-n,.why-t,.why-d," +
+    /* 승진기회: 큰 패널이 아니라 실제 차트/단계 내용 각각 애니메이션 */
+    ".career-growth__desc,.career-growth__line,.career-growth__step,.career-growth__benefit," +
+    /* DB 제공: 래퍼가 아닌 내부 카피/아이콘/채널 카드 각각 애니메이션 */
+    ".sales-support__featured-copy,.sales-support__db-icon,.sales-support__channel," +
+    ".commission-card,.commission-card__head,.commission-chart__item," +
+    ".work-process__item," +
+    ".job-sec,.sidebar,.jl li,.ins-chip,.proc-s,.s-card," +
+    ".ben-box,.ben-header,.ben-card," +
+    ".settlement-support__content,.settlement-support__highlight," +
+    ".cta-t,.cta-d,.cta-btn,.cta-c," +
+    ".foot-logo,.foot-info";
   var els = Array.from(document.querySelectorAll(sel));
 
   if (!els.length) return;
@@ -104,29 +119,45 @@ document.addEventListener("DOMContentLoaded", function () {
     el.style.transition = "opacity 0.55s ease,transform 0.55s ease";
   });
 
+  /* 섹션별 등장 순서를 미리 계산합니다. 부모/자식 중첩 여부와 무관하게 작동합니다. */
+  els.forEach(function (el) {
+    var section = el.closest("section") || document.body;
+    var group = els.filter(function (item) {
+      return (item.closest("section") || document.body) === section;
+    });
+    el.dataset.revealOrder = String(group.indexOf(el));
+  });
+
+  /* 승진 차트의 상승 라인은 스크롤 진입 시 왼쪽→오른쪽으로 그려지게 처리 */
+  var careerPath = document.querySelector(".career-growth__line-path");
+  if (careerPath && typeof careerPath.getTotalLength === "function") {
+    var careerLength = careerPath.getTotalLength();
+    careerPath.style.strokeDasharray = String(careerLength);
+    careerPath.style.strokeDashoffset = String(careerLength);
+    careerPath.style.transition = "stroke-dashoffset 1.05s cubic-bezier(.22,.61,.36,1) 0.12s";
+  }
+
   var io = new IntersectionObserver(
     function (entries) {
       entries.forEach(function (e) {
-        if (e.isIntersecting) {
-          var s = Array.from(e.target.parentNode.children).filter(function (c) {
-            return c.style && c.style.opacity === "0";
-          });
+        if (!e.isIntersecting) return;
 
-          var idx = s.indexOf(e.target);
+        var idx = Number(e.target.dataset.revealOrder || 0);
+        var delay = Math.min(idx * 85, 520);
 
-          setTimeout(
-            function () {
-              e.target.style.opacity = "1";
-              e.target.style.transform = "translateY(0)";
-            },
-            Math.max(0, idx) * 80,
-          );
+        setTimeout(function () {
+          e.target.style.opacity = "1";
+          e.target.style.transform = "translateY(0)";
 
-          io.unobserve(e.target);
-        }
+          if (e.target.classList.contains("career-growth__line") && careerPath) {
+            careerPath.style.strokeDashoffset = "0";
+          }
+        }, delay);
+
+        io.unobserve(e.target);
       });
     },
-    { threshold: 0.08 },
+    { threshold: 0.12, rootMargin: "0px 0px -6% 0px" },
   );
 
   els.forEach(function (el) {
